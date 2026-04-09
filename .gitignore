@@ -1,0 +1,26 @@
+# .NET
+bin/
+obj/
+appsettings.Development.json
+*.user
+
+# User Secrets (nunca versionar credenciais)
+secrets.json
+
+# Migrations (cada dev gera a sua)
+**/Migrations/
+
+# Node / Angular
+node_modules/
+dist/
+.angular/
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
+*.swp
+
+# Recursos locais — não publicar
+Diagrams/
+Roadmap/
