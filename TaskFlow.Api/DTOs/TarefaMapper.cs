@@ -11,7 +11,8 @@ public static class TarefaMapper
         return new Tarefa
         {
             Titulo = request.Titulo,
-            Descricao = request.Descricao
+            Descricao = request.Descricao,
+            Status = StatusTarefa.Pendente // bugfix: define o status inicial como Pendente, não permite definir o status na criação
         };
     }
     // Tarefa -> TarefaResponse
