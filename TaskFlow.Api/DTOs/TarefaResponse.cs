@@ -10,5 +10,5 @@ public class TarefaResponse
     public DateTime DataCriacao { get; set; } = DateTime.UtcNow;
     public DateTime? DataInicio { get; set; }
     public DateTime? DataConclusao { get; set; }
-    public StatusTarefa Status { get; set; } = StatusTarefa.Pendente;
+    public StatusTarefa Status { get; set; }
 }
