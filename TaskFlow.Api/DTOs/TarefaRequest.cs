@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using TaskFlow.Api.Models;
 
 namespace TaskFlow.Api.DTOs;
 
@@ -10,4 +11,6 @@ public class TarefaRequest
 
     [Display(Name = "Descrição da Tarefa")]
     public string Descricao { get; set; } = string.Empty;
+
+    public StatusTarefa Status { get; set; }
 }
