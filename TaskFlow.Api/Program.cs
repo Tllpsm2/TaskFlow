@@ -1,11 +1,14 @@
 using Microsoft.EntityFrameworkCore;
 using TaskFlow.Api.Data;
+using TaskFlow.Api.Services;
 
 var builder = WebApplication.CreateBuilder(args); 
 
 builder.Services.AddControllers(); 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddScoped<TarefaService>();
 
 // DbContext
 // A chave "DefaultConnection" é lida do User Secrets (ou de appsettings.json em produção).
