@@ -12,5 +12,6 @@ public class TarefaRequest
     [Display(Name = "Descrição da Tarefa")]
     public string Descricao { get; set; } = string.Empty;
 
+    [EnumDataType(typeof(StatusTarefa), ErrorMessage = "Status inválido.")]
     public StatusTarefa Status { get; set; }
 }
