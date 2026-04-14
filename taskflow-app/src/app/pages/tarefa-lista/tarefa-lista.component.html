@@ -1,0 +1,17 @@
+<div class="container">
+    <div class="header-kanban">
+      <h1>Quadro de Tarefas</h1>
+      @if (carregando == true){
+        <div class="loading">
+          <p>Carregando...</p>
+        </div>
+      }
+    </div>
+    
+    <!-- Place Holder -->
+    <div class="kanban-board">
+    @for (tarefa of tarefas(); track tarefa.id){
+        <div>{{ tarefa.titulo }}</div>
+      }
+    </div>
+  </div>
