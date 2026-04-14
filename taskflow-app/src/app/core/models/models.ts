@@ -4,9 +4,9 @@ export interface Tarefa {
     id: number;
     titulo: string;
     descricao: string;
-    dataCriacao: Date;
-    dataInicio?: Date;
-    dataConclusao?: Date;
+    dataCriacao: string;
+    dataInicio?: string;
+    dataConclusao?: string;
     status: StatusTarefa;
 }
 
