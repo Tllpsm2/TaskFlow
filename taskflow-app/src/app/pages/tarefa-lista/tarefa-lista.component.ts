@@ -13,24 +13,25 @@ import { TarefaService } from '../../core/tarefa.service';
 export class TarefaListaComponent implements OnInit {
 
   private tarefaService = inject(TarefaService);
+
   tarefas = signal<Tarefa[]>([]);
-  carregando = false;
+  carregando = signal(false);
 
   ngOnInit() {
     this.carregarTarefas();
   }
 
   carregarTarefas(){
-    this.carregando = true;
+    this.carregando.set(true);
     this.tarefaService.listar()
       .subscribe({
         next: tarefas => {
           this.tarefas.set(tarefas);
-          this.carregando = false;
+          this.carregando.set(false);
         },
       error: error => {
         console.error('Erro ao carregar tarefas:', error);
-        this.carregando = false;
+        this.carregando.set(false);
       }
     });
   }
