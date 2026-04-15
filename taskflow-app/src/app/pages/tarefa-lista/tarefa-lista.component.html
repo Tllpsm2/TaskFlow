@@ -1,17 +1,173 @@
 <div class="container">
-    <div class="header-kanban">
-      <h1>Quadro de Tarefas</h1>
-      @if (carregando == true){
-        <div class="loading">
-          <p>Carregando...</p>
-        </div>
+  <!-- Header -->
+  <div class="header-kanban">
+    <h1>Quadro de Tarefas</h1>
+    @if (carregando()) {
+    <div class="loading">
+      <p>Carregando...</p>
+    </div>
+    }
+    @if (mensagemErro()) {
+    <div class="error">
+      <p>{{ mensagemErro() }}</p>
+      <button (click)="carregarTarefas()">Tentar novamente</button>
+    </div>
+    }
+    @if (!carregando() && tarefas().length === 0 && !mensagemErro()) {
+    <div class="no-tasks">
+      <p>Nenhuma tarefa encontrada. Crie uma nova tarefa para começar!</p>
+      <button [routerLink]="['/tarefas/nova']">Criar Tarefa</button>
+    </div>
+    }
+  </div>
+
+  <!-- Board -->
+  @if (!carregando() && tarefas().length > 0 && !mensagemErro()) {
+  <div class="kanban-board">
+
+    <!-- Coluna Pendências: -->
+    <div class="coluna-pendente">
+      <div class="coluna-header">
+        Pendências:
+        <span class="badge">{{ pendentes().length }}</span>
+      </div>
+
+      <ul class="lista">
+        @for (tarefa of pendentes(); track tarefa.id) {
+        <li class="card">
+          <div class="card-topo">
+            <span class="titulo">{{ tarefa.titulo }}</span>
+          </div>
+
+          @if (tarefa.descricao) {
+          <p class="descricao">{{ tarefa.descricao }}</p>
+          }
+
+          <div class="card-rodape">
+            <div class="datas">
+              <span class="data">
+                Criação: {{ tarefa.dataCriacao | date: "dd/MM/yyyy" }}
+              </span>
+            </div>
+
+            <div class="acoes">
+              <br>
+              <button [routerLink]="['/tarefas', tarefa.id, 'editar']" class="btn-editar">
+                Editar
+              </button>
+              <button (click)="excluirTarefa(tarefa)" class="btn-excluir">
+                Excluir
+              </button>
+            </div>
+          </div>
+        </li>
+        }
+      </ul>
+      @if (pendentes().length === 0) {
+      <p class="vazio-coluna">Sem tarefas</p>
       }
     </div>
-    
-    <!-- Place Holder -->
-    <div class="kanban-board">
-    @for (tarefa of tarefas(); track tarefa.id){
-        <div>{{ tarefa.titulo }}</div>
+    <hr>
+
+    <!-- Coluna Em Andamento -->
+    <div class="coluna-andamento">
+      <div class="coluna-header">
+        Em Andamento:
+        <span class="badge">{{ emAndamento().length }}</span>
+      </div>
+      <ul class="lista">
+        @for (tarefa of emAndamento(); track tarefa.id) {
+        <li class="card">
+          <div class="card-topo">
+            <span class="titulo">{{ tarefa.titulo }}</span>
+          </div>
+
+          @if (tarefa.descricao) {
+          <p class="descricao">{{ tarefa.descricao }}</p>
+          }
+
+          <div class="card-rodape">
+            <div class="datas">
+              <span class="data">
+                Criação: {{ tarefa.dataCriacao | date: "dd/MM/yyyy" }}
+              </span>
+              @if (tarefa.dataInicio) {
+              <span class="data">
+                Início: {{ tarefa.dataInicio | date: "dd/MM/yyyy" }}
+              </span>
+              }
+            </div>
+
+            <div class="acoes">
+              <br>
+              <button [routerLink]="['/tarefas', tarefa.id, 'editar']" class="btn-editar">
+                Editar
+              </button>
+              <button (click)="excluirTarefa(tarefa)" class="btn-excluir">
+                Excluir
+              </button>
+            </div>
+          </div>
+        </li>
+        }
+      </ul>
+      @if (emAndamento().length === 0) {
+      <p class="vazio-coluna">Sem tarefas</p>
+      }
+    </div>
+    <hr>
+
+    <!-- Coluna Concluidas -->
+    <div class="coluna-concluidas">
+      <div class="coluna-header">
+        Concluído:
+        <span class="badge">{{ concluidas().length }}</span>
+      </div>
+      <ul class="lista">
+        @for (tarefa of concluidas(); track tarefa.id) {
+        <li class="card">
+          <div class="card-topo">
+            <span class="titulo">{{ tarefa.titulo }}</span>
+          </div>
+
+          @if (tarefa.descricao) {
+          <p class="descricao">{{ tarefa.descricao }}</p>
+          }
+
+          <div class="card-rodape">
+            <div class="datas">
+              <span class="data">
+                Criação: {{ tarefa.dataCriacao | date: "dd/MM/yyyy" }}
+              </span>
+              @if (tarefa.dataInicio) {
+              <span class="data">
+                Início: {{ tarefa.dataInicio | date: "dd/MM/yyyy" }}
+              </span>
+              }
+              @if (tarefa.dataConclusao) {
+              <span class="data">
+                Conclusão: {{ tarefa.dataConclusao | date: "dd/MM/yyyy" }}
+              </span>
+              }
+            </div>
+
+            <div class="acoes">
+              <br>
+              <button [routerLink]="['/tarefas', tarefa.id, 'editar']" class="btn-editar">
+                Editar
+              </button>
+              <button (click)="excluirTarefa(tarefa)" class="btn-excluir">
+                Excluir
+              </button>
+            </div>
+          </div>
+        </li>
+        }
+      </ul>
+      @if (concluidas().length === 0) {
+      <p class="vazio-coluna">Sem tarefas</p>
       }
     </div>
   </div>
+  }
+</div>
