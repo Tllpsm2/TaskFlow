@@ -1,0 +1,51 @@
+<div class="container">
+    <h1>{{ modoEdicao() ? 'Editar tarefa' : 'Nova tarefa'}}</h1>
+    
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="formulario">
+        <div class="campo">
+            <label for="titulo">Título *</label>
+            <input id="titulo" formControlName="titulo" type="text" placeholder="Digite o título da tarefa" />
+            @if (tituloCampo?.touched && tituloCampo?.errors?. ['required']) {
+                <span class="campo-erro">
+                    O título é obrigatório    
+                </span>
+            }
+            @if (tituloCampo?.touched && tituloCampo?.errors?. ['minlength']) {
+                <span class="campo-erro">
+                    O título deve conter no mínimo 5 caracteres    
+                </span>
+            }
+            @if (tituloCampo?.touched && tituloCampo?.errors?. ['maxlength']) {
+                <span class="campo-erro">
+                    O título deve conter no máximo 200 caracteres    
+                </span>
+            }
+        </div>
+        <hr>
+
+        <div class="campo">
+            <label for="descricao">Descrição</label>
+            <textarea id="descricao" formControlName="descricao" rows="3" placeholder="Descrição da tarefa"></textarea>
+        </div>
+        <hr>
+
+        @if (modoEdicao()){
+            <div class="campo">
+                <label for="status">Status</label>
+                <select id="status" formControlName="status">
+                    <option value="Pendente">Pendente</option>
+                    <option value="EmAndamento">Em andamento</option>
+                    <option value="Concluida">Concluída</option>
+                </select>
+            </div>
+        }
+
+        <div class="acoes">
+            <button type="submit" [disabled]="form.invalid" class="btn-salvar">
+                {{ salvando() ? 'Salvando...' : (modoEdicao() ? 'Salvar alterações' : 'Criar tarefa') }}
+            </button>
+            <button type="button" [routerLink]="['/tarefas']" class="btn-cancelar">Cancelar</button>
+        </div>
+
+    </form>
+</div>
