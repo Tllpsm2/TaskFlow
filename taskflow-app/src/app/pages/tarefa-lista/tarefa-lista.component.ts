@@ -3,12 +3,13 @@ import { Tarefa } from '../../core/models/models';
 import { TarefaService } from '../../core/tarefa.service';
 import { RouterLink } from '@angular/router';
 import { DatePipe } from '@angular/common';
+import { LucideAngularModule, Pencil, Trash2 } from 'lucide-angular';
 
 
 @Component({
   selector: 'app-tarefa-lista',
   standalone: true,
-  imports: [RouterLink, DatePipe],
+  imports: [RouterLink, DatePipe, LucideAngularModule],
   templateUrl: './tarefa-lista.component.html',
   styleUrl: './tarefa-lista.component.css'
 })
@@ -20,6 +21,13 @@ export class TarefaListaComponent implements OnInit {
   tarefas = signal<Tarefa[]>([]);
   carregando = signal(false);
   mensagemErro = signal('');
+  
+  // símbolos para botões
+  readonly pencil = Pencil;
+  readonly trash2 = Trash2;
+
+  // IDs para controle de colapsos
+  private descricaoExpandida = new Set<number>();
 
   // divisão por status
   pendentes = computed(() => this.tarefas().filter(t => t.status === 'Pendente'));
@@ -28,6 +36,18 @@ export class TarefaListaComponent implements OnInit {
 
   ngOnInit() {
     this.carregarTarefas();
+  }
+
+  estaExpandida(id: number): boolean {
+    return this.descricaoExpandida.has(id);
+  }
+
+  toggleDescricao(id: number) {
+    if (this.descricaoExpandida.has(id)) {
+      this.descricaoExpandida.delete(id);
+    } else {
+      this.descricaoExpandida.add(id);
+    }
   }
 
   carregarTarefas() {

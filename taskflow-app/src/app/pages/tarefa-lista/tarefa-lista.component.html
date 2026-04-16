@@ -26,37 +26,39 @@
   <div class="kanban-board">
 
     <!-- Coluna Pendências: -->
-    <div class="coluna-pendente">
+    <div class="coluna pendente">
       <div class="coluna-header">
         Pendências:
-        <span class="badge">{{ pendentes().length }}</span>
+        <span class="badge pendente">{{ pendentes().length }}</span>
       </div>
 
       <ul class="lista">
         @for (tarefa of pendentes(); track tarefa.id) {
         <li class="card">
           <div class="card-topo">
-            <span class="titulo">{{ tarefa.titulo }}</span>
+            <span class="titulo-lista">{{ tarefa.titulo }}</span>
           </div>
 
           @if (tarefa.descricao) {
-          <p class="descricao">{{ tarefa.descricao }}</p>
+          <p class="descricao" [class.expandida]="estaExpandida(tarefa.id)" (click)="toggleDescricao(tarefa.id)"
+            [title]="estaExpandida(tarefa.id) ? 'Clique para recolher' : 'Clique para expandir'">
+            {{ tarefa.descricao }}
+          </p>
           }
 
           <div class="card-rodape">
             <div class="datas">
-              <span class="data">
+              <span>
                 Criação: {{ tarefa.dataCriacao | date: "dd/MM/yyyy" }}
               </span>
             </div>
 
             <div class="acoes">
-              <br>
               <button [routerLink]="['/tarefas', tarefa.id, 'editar']" class="btn-editar">
-                Editar
+                <lucide-icon [img]="pencil" size="15" />
               </button>
               <button (click)="excluirTarefa(tarefa)" class="btn-excluir">
-                Excluir
+                <lucide-icon [img]="trash2" size="15" />
               </button>
             </div>
           </div>
@@ -70,41 +72,43 @@
     <hr>
 
     <!-- Coluna Em Andamento -->
-    <div class="coluna-andamento">
+    <div class="coluna andamento">
       <div class="coluna-header">
         Em Andamento:
-        <span class="badge">{{ emAndamento().length }}</span>
+        <span class="badge andamento">{{ emAndamento().length }}</span>
       </div>
       <ul class="lista">
         @for (tarefa of emAndamento(); track tarefa.id) {
         <li class="card">
           <div class="card-topo">
-            <span class="titulo">{{ tarefa.titulo }}</span>
+            <span class="titulo-lista">{{ tarefa.titulo }}</span>
           </div>
 
           @if (tarefa.descricao) {
-          <p class="descricao">{{ tarefa.descricao }}</p>
+          <p class="descricao" [class.expandida]="estaExpandida(tarefa.id)" (click)="toggleDescricao(tarefa.id)"
+            [title]="estaExpandida(tarefa.id) ? 'Clique para recolher' : 'Clique para expandir'">
+            {{ tarefa.descricao }}
+          </p>
           }
 
           <div class="card-rodape">
             <div class="datas">
-              <span class="data">
+              <span>
                 Criação: {{ tarefa.dataCriacao | date: "dd/MM/yyyy" }}
               </span>
               @if (tarefa.dataInicio) {
-              <span class="data">
+              <span>
                 Início: {{ tarefa.dataInicio | date: "dd/MM/yyyy" }}
               </span>
               }
             </div>
 
             <div class="acoes">
-              <br>
               <button [routerLink]="['/tarefas', tarefa.id, 'editar']" class="btn-editar">
-                Editar
+                <lucide-icon [img]="pencil" size="15" />
               </button>
               <button (click)="excluirTarefa(tarefa)" class="btn-excluir">
-                Excluir
+                <lucide-icon [img]="trash2" size="15" />
               </button>
             </div>
           </div>
@@ -118,46 +122,48 @@
     <hr>
 
     <!-- Coluna Concluidas -->
-    <div class="coluna-concluidas">
+    <div class="coluna concluida">
       <div class="coluna-header">
         Concluído:
-        <span class="badge">{{ concluidas().length }}</span>
+        <span class="badge concluido">{{ concluidas().length }}</span>
       </div>
       <ul class="lista">
         @for (tarefa of concluidas(); track tarefa.id) {
         <li class="card">
           <div class="card-topo">
-            <span class="titulo">{{ tarefa.titulo }}</span>
+            <span class="titulo-lista">{{ tarefa.titulo }}</span>
           </div>
 
           @if (tarefa.descricao) {
-          <p class="descricao">{{ tarefa.descricao }}</p>
+          <p class="descricao" [class.expandida]="estaExpandida(tarefa.id)" (click)="toggleDescricao(tarefa.id)"
+            [title]="estaExpandida(tarefa.id) ? 'Clique para recolher' : 'Clique para expandir'">
+            {{ tarefa.descricao }}
+          </p>
           }
 
           <div class="card-rodape">
             <div class="datas">
-              <span class="data">
+              <span>
                 Criação: {{ tarefa.dataCriacao | date: "dd/MM/yyyy" }}
               </span>
               @if (tarefa.dataInicio) {
-              <span class="data">
+              <span>
                 Início: {{ tarefa.dataInicio | date: "dd/MM/yyyy" }}
               </span>
               }
               @if (tarefa.dataConclusao) {
-              <span class="data">
+              <span>
                 Conclusão: {{ tarefa.dataConclusao | date: "dd/MM/yyyy" }}
               </span>
               }
             </div>
 
             <div class="acoes">
-              <br>
               <button [routerLink]="['/tarefas', tarefa.id, 'editar']" class="btn-editar">
-                Editar
+                <lucide-icon [img]="pencil" size="15" />
               </button>
               <button (click)="excluirTarefa(tarefa)" class="btn-excluir">
-                Excluir
+                <lucide-icon [img]="trash2" size="15" />
               </button>
             </div>
           </div>
