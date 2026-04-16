@@ -12,6 +12,7 @@ import { Router, ActivatedRoute, RouterLink } from '@angular/router';
   styleUrl: './tarefa-form.component.css'
 })
 
+
 export class TarefaFormComponent implements OnInit {
 
   private tarefaService = inject(TarefaService);
@@ -33,7 +34,14 @@ export class TarefaFormComponent implements OnInit {
     return this.form.get('titulo');
   }
 
-  ngOnInit(){
+  // Método para redimensionar o textarea do titulo e descricao automaticamente
+  autoResize(event: Event) {
+    const el = event.target as HTMLTextAreaElement;
+    el.style.height = 'auto';
+    el.style.height = el.scrollHeight + 'px';
+  }
+
+  ngOnInit() {
     const idParam = this.route.snapshot.paramMap.get('id');
 
     if (idParam) {
@@ -43,34 +51,34 @@ export class TarefaFormComponent implements OnInit {
     }
   }
 
-  carregarTarefa(){
+  carregarTarefa() {
     if (!this.tarefaId) {
       return;
     }
-    
-  this.tarefaService.buscarPorId(this.tarefaId)
-    .subscribe({
-      next: tarefa => {
-        this.form.patchValue({
-          titulo: tarefa.titulo,
-          descricao: tarefa.descricao,
-          status: tarefa.status
-        });
-      },
-      error: error => {
-        console.error('Erro ao carregar tarefa:', error);
-        this.router.navigate(['/tarefas']);
-      }
-    });
+
+    this.tarefaService.buscarPorId(this.tarefaId)
+      .subscribe({
+        next: tarefa => {
+          this.form.patchValue({
+            titulo: tarefa.titulo,
+            descricao: tarefa.descricao,
+            status: tarefa.status
+          });
+        },
+        error: error => {
+          console.error('Erro ao carregar tarefa:', error);
+          this.router.navigate(['/tarefas']);
+        }
+      });
   }
 
-  onSubmit(){
-    if(this.form.invalid) {
+  onSubmit() {
+    if (this.form.invalid) {
       return;
     }
 
     this.salvando.set(true);
-    
+
     const request: any = {
       titulo: this.form.value.titulo,
       descricao: this.form.value.descricao,
@@ -87,7 +95,7 @@ export class TarefaFormComponent implements OnInit {
           this.salvando.set(false);
         }
       });
-    } 
+    }
     else {
       this.tarefaService.criar(request).subscribe({
         next: () => {

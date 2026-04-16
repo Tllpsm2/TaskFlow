@@ -1,0 +1,189 @@
+@import url("../../shared/styles/page-layout.css");
+
+.container {
+  min-width: 400px;
+}
+
+.btn-voltar-topo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #6b7280;
+  background: transparent;
+  border: 1px solid #e5e7eb;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 150ms ease;
+  white-space: nowrap;
+}
+
+.btn-voltar-topo:hover {
+  background: #f3f4f6;
+  color: #374151;
+}
+
+.formulario {
+  width: 100%;
+  box-sizing: border-box;
+  margin: 0 auto;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.campo:first-child {
+  padding-top: 0;
+}
+
+.campo+.campo {
+  border-top: 1px dashed #e5e7eb;
+  margin-top: 0.5rem;
+}
+
+.campo label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 0.2rem;
+}
+
+.campo input,
+.campo textarea,
+.campo select {
+  font-family: inherit;
+  width: 100%;
+  box-sizing: border-box;
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 0.75rem;
+  font-size: 0.875rem;
+  color: #111827;
+  outline: none;
+  transition: border-color 150ms ease, box-shadow 150ms ease;
+  resize: none;
+  overflow: hidden;
+}
+
+.campo input::placeholder,
+.campo textarea::placeholder {
+  color: #9ca3af;
+}
+
+.campo input:focus,
+.campo textarea:focus,
+.campo select:focus {
+  border-color: #6b7280;
+  box-shadow: 0 0 0 3px rgba(107, 114, 128, 0.12);
+}
+
+.campo input.ng-touched.ng-invalid,
+.campo textarea.ng-touched.ng-invalid {
+  border-color: #fca5a5;
+  box-shadow: 0 0 0 3px rgba(252, 165, 165, 0.15);
+}
+
+#titulo,
+#descricao {
+  resize: none;
+  overflow: hidden;
+  line-height: 1.6;
+}
+
+#descricao {
+  min-height: 100px;
+  padding: 0.75rem;
+}
+
+.campo select {
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  padding-right: 2rem;
+}
+
+.campo-erro {
+  font-size: 0.75rem;
+  color: #be123c;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.campo-erro::before {
+  content: "";
+  display: inline-block;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: currentColor;
+  flex-shrink: 0;
+}
+
+.acoes {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: flex-end;
+  padding-top: 1.25rem;
+  border-top: 1px dashed #e5e7eb;
+  margin-top: 1rem;
+}
+
+.btn-salvar,
+.btn-cancelar {
+  font-size: 0.875rem;
+  font-weight: 500;
+  padding: 0.5rem 1.25rem;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: background 150ms ease, transform 100ms ease;
+}
+
+.btn-salvar {
+  background: #111827;
+  color: #fff;
+}
+
+.btn-salvar:hover:not(:disabled) {
+  background: #374151;
+}
+
+.btn-salvar:disabled {
+  background: #d1d5db;
+  color: #9ca3af;
+  cursor: not-allowed;
+}
+
+.btn-cancelar {
+  background: transparent;
+  color: #6b7280;
+  border: 1px solid #e5e7eb;
+}
+
+.btn-cancelar:hover {
+  background: #f9fafb;
+  border-color: #d1d5db;
+}
+
+.btn-salvar:active:not(:disabled),
+.btn-cancelar:active {
+  transform: scale(0.97);
+}
