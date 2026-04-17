@@ -1,0 +1,59 @@
+name: TaskFlow build
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+  workflow_dispatch:
+
+jobs:
+  build-backend:
+    name: Build da API (.NET 8)
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: ./TaskFlow.Api
+
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      - name: Configurar .NET 8
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restaurar pacotes
+        run: dotnet restore
+
+      - name: Compilar backend
+        run: dotnet build --no-restore --configuration Release
+
+  build-frontend:
+    name: Build do Frontend (Angular)
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: ./taskflow-app
+
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18.x'
+          cache: 'npm'
+          cache-dependency-path: './taskflow-app/package-lock.json'
+
+      - name: Instalar dependências
+        run: npm ci
+
+      - name: Build do frontend
+        run: npm run build
