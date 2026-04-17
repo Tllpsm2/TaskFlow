@@ -31,26 +31,10 @@
 .btn-voltar-topo,
 .btn-salvar,
 .btn-cancelar,
-.error button,
-.no-tasks button,
 .btn-editar,
 .btn-excluir {
-  font: inherit;
   cursor: pointer;
-  transition: background 150ms ease, border-color 150ms ease, color 150ms ease, transform 100ms ease;
-}
-
-.btn-voltar-topo {
-  border: 1px solid #e5e7eb;
-  background: transparent;
-}
-
-.btn-voltar-topo,
-.btn-salvar,
-.btn-cancelar,
-.error button,
-.no-tasks button {
-  border-radius: 10px;
+  transition: all 150ms ease;
 }
 
 .btn-editar,
