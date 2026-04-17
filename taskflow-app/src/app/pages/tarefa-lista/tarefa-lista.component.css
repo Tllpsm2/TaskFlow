@@ -24,8 +24,6 @@
   flex: 1;
   min-width: 280px;
   max-width: 350px;
-  background: #f3f4f6;
-  border-radius: 12px;
   padding: 1rem;
 }
 
@@ -62,11 +60,7 @@
 }
 
 .card {
-  border: 1px solid #e5e7eb;
-  border-radius: 8px;
   padding: 1rem;
-  background: #fff;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
 .card-topo {
@@ -132,20 +126,6 @@
   margin-left: auto;
 }
 
-.btn-editar,
-.btn-excluir {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 30px;
-  height: 30px;
-  border-radius: 6px;
-  border: none;
-  cursor: pointer;
-  background: transparent;
-  transition: background 150ms ease, transform 100ms ease;
-}
-
 .btn-editar {
   color: #93c5fd;
 }
@@ -200,7 +180,6 @@
   gap: 0.75rem;
   background: #fff1f2;
   border: 1px solid #fecdd3;
-  border-radius: 8px;
   padding: 0.75rem 1rem;
   font-size: 0.875rem;
   color: #be123c;
@@ -215,13 +194,10 @@
   font-size: 0.75rem;
   font-weight: 500;
   padding: 0.3rem 0.75rem;
-  border-radius: 6px;
   border: 1px solid #fecdd3;
   background: #fff;
   color: #be123c;
-  cursor: pointer;
   white-space: nowrap;
-  transition: background 150ms ease;
 }
 
 .error button:hover {
@@ -248,12 +224,9 @@
   font-size: 0.875rem;
   font-weight: 500;
   padding: 0.5rem 1.25rem;
-  border-radius: 8px;
   border: none;
   background: #111827;
   color: #fff;
-  cursor: pointer;
-  transition: background 150ms ease, transform 100ms ease;
 }
 
 .no-tasks button:hover {
