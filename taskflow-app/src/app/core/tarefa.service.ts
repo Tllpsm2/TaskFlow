@@ -1,12 +1,13 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { StatusTarefa, Tarefa, TarefaRequest } from './models/models';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TarefaService {
-  private readonly api = `http://localhost:5055/api/Tarefas`;
+  private readonly api = environment.apiUrl;
   private http = inject(HttpClient);
 
   listar(status?: StatusTarefa) {
