@@ -1,7 +1,7 @@
 @import url("../../shared/styles/page-layout.css");
 
 .container {
-  min-width: 400px;
+  max-width: 500px;
 }
 
 .btn-voltar-topo {
