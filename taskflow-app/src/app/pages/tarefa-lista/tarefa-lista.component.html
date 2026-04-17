@@ -23,7 +23,7 @@
 
   <!-- Board -->
   @if (!carregando() && tarefas().length > 0 && !mensagemErro()) {
-  <div class="kanban-board">
+  <div class="kanban-board" cdkDropListGroup>
 
     <!-- Coluna Pendências: -->
     <div class="coluna pendente">
@@ -32,9 +32,9 @@
         <span class="badge pendente">{{ pendentes().length }}</span>
       </div>
 
-      <ul class="lista">
+      <ul class="lista" cdkDropList [cdkDropListData] = "pendentes()" (cdkDropListDropped)="onDrop($event, 'Pendente')">
         @for (tarefa of pendentes(); track tarefa.id) {
-        <li class="card">
+        <li class="card" cdkDrag>
           <div class="card-topo">
             <span class="titulo-lista">{{ tarefa.titulo }}</span>
           </div>
@@ -77,9 +77,9 @@
         Em Andamento:
         <span class="badge andamento">{{ emAndamento().length }}</span>
       </div>
-      <ul class="lista">
+      <ul class="lista" cdkDropList [cdkDropListData] = "emAndamento()" (cdkDropListDropped)="onDrop($event, 'EmAndamento')">
         @for (tarefa of emAndamento(); track tarefa.id) {
-        <li class="card">
+        <li class="card" cdkDrag>
           <div class="card-topo">
             <span class="titulo-lista">{{ tarefa.titulo }}</span>
           </div>
@@ -127,9 +127,9 @@
         Concluído:
         <span class="badge concluido">{{ concluidas().length }}</span>
       </div>
-      <ul class="lista">
+      <ul class="lista" cdkDropList [cdkDropListData] = "concluidas()" (cdkDropListDropped)="onDrop($event, 'Concluida')">
         @for (tarefa of concluidas(); track tarefa.id) {
-        <li class="card">
+        <li class="card" cdkDrag>
           <div class="card-topo">
             <span class="titulo-lista">{{ tarefa.titulo }}</span>
           </div>
