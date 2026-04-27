@@ -4,30 +4,42 @@ using TaskFlow.Api.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Bugfix para serialização de enums como strings (em vez de números) na API | resolve envio de form data do Angular
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
     {
         options.JsonSerializerOptions.Converters.Add(new System.Text.Json.Serialization.JsonStringEnumConverter());
     });
-    
+
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
+    {
+        Title = "TaskFlow API",
+        Version = "v1",
+        Description = "API REST para gerenciamento de tarefas com suporte a status e filtros."
+    });
+
+    var xmlFile = $"{System.Reflection.Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+    options.IncludeXmlComments(xmlPath);
+});
 
 builder.Services.AddScoped<TarefaService>();
 
 /* DbContext
 A chave "DefaultConnection" é lida do User Secrets (ou de appsettings.json em produção).
- Para configurá-la localmente via User Secrets, execute no terminal (dentro de TaskFlow.Api/):
-    > dotnet user-secrets init
-    > dotnet user-secrets set "ConnectionStrings:DefaultConnection" "Server=...;Database=...;User Id=...;Password=...;TrustServerCertificate=true"
- Se quiser usar um nome diferente de "DefaultConnection", altere tanto aqui quanto na chave do User Secret.
 */
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+if (string.IsNullOrWhiteSpace(connectionString))
+{
+    throw new InvalidOperationException(
+        "Connection string 'ConnectionStrings:DefaultConnection' não configurada. Configure o banco de dados via Docker e User Secrets conforme o README.");
+}
+
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(connectionString));
 
-// CORS - Angular
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("Angular", policy =>
@@ -42,7 +54,11 @@ builder.Services.AddCors(options =>
 var app = builder.Build();
 
 app.UseSwagger();
-app.UseSwaggerUI();
+app.UseSwaggerUI(options =>
+{
+    options.SwaggerEndpoint("/swagger/v1/swagger.json", "TaskFlow API v1");
+    options.DocumentTitle = "TaskFlow API";
+});
 
 app.UseCors("Angular");
 
@@ -51,4 +67,3 @@ app.UseHttpsRedirection();
 app.MapControllers();
 
 app.Run();
-

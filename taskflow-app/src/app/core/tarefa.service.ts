@@ -27,7 +27,7 @@ export class TarefaService {
   }
 
   atualizar(id: number, request: TarefaRequest) {
-    return this.http.put<Tarefa>(`${this.api}/${id}`, request);
+    return this.http.put<any>(`${this.api}/${id}`, request);
   }
 
   excluir(id: number) {
