@@ -5,6 +5,8 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>2a3ab8af-df6d-40fc-8535-c46a7f517ebe</UserSecretsId>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>1591</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
@@ -23,12 +25,11 @@
 
   <ItemGroup>
     <Folder Include="Controllers/" />
-    <Folder Include="Data\" />
-    <Folder Include="DTOs\" />
-    <Folder Include="Middlewares\" />
-    <Folder Include="Models\" />
-    <Folder Include="Services\" />
+    <Folder Include="Data/" />
+    <Folder Include="DTOs/" />
+    <Folder Include="Middlewares/" />
+    <Folder Include="Models/" />
+    <Folder Include="Services/" />
   </ItemGroup>
-
+  
 </Project>
-
