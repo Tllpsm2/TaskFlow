@@ -19,9 +19,7 @@ Aplicação full stack para gerenciamento de tarefas com Angular 17 no frontend 
   - [Executar frontend](#executar-frontend)
 - [Backend (ASP.NET Core)](#backend-aspnet-core)
   - [Stack do backend](#stack-do-backend)
-  - [Subir SQL Server no Docker](#subir-sql-server-no-docker)
-  - [Configurar connection string (User Secrets)](#configurar-connection-string-user-secrets)
-  - [Aplicar migrations](#aplicar-migrations)
+  - [Setup local do Backend](#setup-local-do-backend)
   - [Executar backend](#executar-backend)
 - [Execução local com API](#execução-local-com-api)
 - [Endpoints da API](#endpoints-da-api)
@@ -101,10 +99,14 @@ Aplicação local: http://localhost:4200/tarefas
 - SQL Server
 - Swagger
 
-### Subir SQL Server no Docker
+### Setup local do Backend
+
+Siga os passos abaixo para configurar o banco de dados e as credenciais localmente.
+
+1) Subir SQL Server no Docker
 
 ```bash
-docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=SuaSenhaAqui@123" \
+docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=SuaSenhaAqui@123" \
   -p 1433:1433 --name sqlserver \
   -d mcr.microsoft.com/mssql/server:2022-latest
 ```
@@ -115,7 +117,8 @@ Verifique se o container está ativo:
 docker ps
 ```
 
-### Configurar connection string (User Secrets)
+2) Configurar connection string (User Secrets)
+
 A aplicação lê a string de conexão de `ConnectionStrings:DefaultConnection`. Para configurá-la localmente com segurança, utilize **User Secrets**.
 
 ```bash
@@ -127,12 +130,13 @@ dotnet user-secrets set "ConnectionStrings:DefaultConnection" "Server=localhost,
 > [!NOTE]
 > TrustServerCertificate=true é necessário em ambiente local com SQL Server no Docker.
 
-### Aplicar migrations
+3) Aplicar migrations
+
+Caso seja a primeira vez configurando ou tenha modificado os modelos, crie a migração inicial antes de aplicá-la ao banco:
 
 ```bash
 cd TaskFlow.Api
-dotnet tool install --global dotnet-ef
-dotnet ef migrations add Migration
+dotnet ef migrations add InitialCreate
 dotnet ef database update
 ```
 
@@ -197,7 +201,7 @@ Exemplo de payload (POST/PUT):
 > [!TIP]
 > Se a lista de tarefas não carregar, confirme se o modo correto está ativo (mock ou api) e se a URL da API está acessível.
 
-- Erro de conexão com SQL Server: valide container, senha do usuário sa e connection string.
+- Erro de conexão com SQL Server (Login failed for user 'sa'): Verifique se a senha no comando `docker run` e no `dotnet user-secrets set` são idênticas. Se necessário, remova o container (`docker rm -f sqlserver`) e refaça o passo 1 e 2 do setup.
 - Erro de CORS: confirme origem http://localhost:4200 no backend.
 - Erro de certificado local: use o endpoint HTTP em desenvolvimento (http://localhost:5055).
 
@@ -214,6 +218,8 @@ Embora o projeto atenda a todos os requisitos do desafio, algumas evoluções ar
 ### Backend
 - **Implementação de Soft Delete:** Substituir a exclusão física (DELETE no banco) por exclusão lógica (adicionando campos como `IsDeleted` ou `DataExclusao`). Isso preserva o histórico de dados e previne perdas acidentais.
 - **Tratamento Global de Exceções:** Extrair os blocos de `try-catch` das *Controllers* e implementar um *Global Exception Handler* via Middleware. Isso centraliza o tratamento de erros, padroniza as respostas de falha da API (utilizando o padrão `ProblemDetails`) e deixa os *Controllers* muito mais limpos e focados apenas no roteamento.
+- **Refatoração para Princípios SOLID (DIP e ISP):** Introduzir interfaces para os serviços e repositórios, eliminando a dependência direta de classes concretas e do `DbContext`. Isso melhora o desacoplamento e facilita a escrita de testes unitários.
+- **Abstração da Camada de Dados (Repository Pattern):** Isolar o acesso ao banco de dados em repositórios específicos, permitindo que os serviços foquem apenas nas regras de negócio e simplificando a troca ou evolução do provedor de persistência.
 
 ### Expansão e Ecossistema
 - **Desenvolvimento de Plugin Nativo para o Obsidian:** Evoluir a solução front-end para atuar como um plugin do Obsidian. O objetivo é preencher uma lacuna atual na comunidade, oferecendo um quadro Kanban capaz de persistir, centralizar e sincronizar estados diretamente em uma API externa (cloud), permitindo a integração do fluxo de trabalho com sistemas de terceiros.
