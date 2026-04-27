@@ -136,6 +136,8 @@ Caso seja a primeira vez configurando ou tenha modificado os modelos, crie a mig
 
 ```bash
 cd TaskFlow.Api
+dotnet tool install --global dotnet-ef --version 8.* # Instale, caso não tenha, a ferramenta global do Entity Framework Core
+dotnet restore
 dotnet ef migrations add InitialCreate
 dotnet ef database update
 ```
@@ -203,7 +205,7 @@ Exemplo de payload (POST/PUT):
 
 - Erro de conexão com SQL Server (Login failed for user 'sa'): Verifique se a senha no comando `docker run` e no `dotnet user-secrets set` são idênticas. Se necessário, remova o container (`docker rm -f sqlserver`) e refaça o passo 1 e 2 do setup.
 - Erro de CORS: confirme origem http://localhost:4200 no backend.
-- Erro de certificado local: use o endpoint HTTP em desenvolvimento (http://localhost:5055).
+- Erro de certificado local (HTTPS): se o navegador bloquear a API ou o Swagger em `https://localhost:7088`, confie no certificado de desenvolvimento do .NET executando `dotnet dev-certs https --trust` no terminal (Windows/macOS). Alternativamente, use o endpoint HTTP (http://localhost:5055).
 
 ---
 
